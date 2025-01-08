@@ -104,6 +104,9 @@ section:hover {
     border: 2px solid #fff;
     border-radius: 10px;
     transition: transform 0.3s;
+    object-fit: cover; /* Add this line */
+    width: 300px; /* Ensure the width is set */
+    height: 200px; /* Ensure the height is set */
 }
 
 .gallery img:hover, .gallery video:hover {
