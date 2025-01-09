@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dropdowns = document.querySelectorAll('.dropdown');
+    const menuButton = document.querySelector('.menu-button');
+    const navUl = document.querySelector('nav ul');
+
+    menuButton.addEventListener('click', () => {
+        navUl.classList.toggle('show');
+    });
 
     dropdowns.forEach(dropdown => {
         dropdown.addEventListener('mouseenter', () => {
