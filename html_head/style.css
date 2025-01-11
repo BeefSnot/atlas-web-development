@@ -140,3 +140,35 @@ footer a:hover {
         margin: 10px 0;
     }
 }
+@media screen and (max-width: 600px) {
+    .menu-button {
+        display: block;
+        background-color: #1e3c72;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin: 20px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+
+    nav ul {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 50px;
+        right: 10px;
+        background-color: #1e3c72;
+        border-radius: 15px;
+        padding: 10px;
+        z-index: 999;
+    }
+
+    nav ul.show {
+        display: flex;
+    }
+}
