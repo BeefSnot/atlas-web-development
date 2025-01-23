@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function gameLoop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'black';
         gameData.score++;
         ctx.fillText(`Score: ${gameData.score}`, 10, 50);
         requestAnimationFrame(gameLoop);
