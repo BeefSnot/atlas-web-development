@@ -8,7 +8,7 @@ app.use(express.static('public'));
 
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'rdynastyhosting_t3dbgameoot',
+    user: 'dynastyhosting_t3dbgame',
     password: 'qDM3WCekTRAJa34HE5C3',
     database: 'dynastyhosting_t3dbgame'
 });
