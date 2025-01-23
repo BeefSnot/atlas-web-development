@@ -1,44 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-    let gameData = { score: 0, player: { x: 50, y: 50, size: 20 }, items: [] };
+    const player = { x: 50, y: 50, size: 20, color: 'blue', speed: 5 };
+    const enemies = [];
+    let gameData = { score: 0 };
 
     function drawPlayer() {
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(gameData.player.x, gameData.player.y, gameData.player.size, gameData.player.size);
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x, player.y, player.size, player.size);
     }
 
-    function drawItems() {
-        ctx.fillStyle = 'green';
-        gameData.items.forEach(item => {
-            ctx.fillRect(item.x, item.y, item.size, item.size);
+    function drawEnemies() {
+        ctx.fillStyle = 'red';
+        enemies.forEach(enemy => {
+            ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
         });
     }
 
-    function spawnItem() {
-        const size = 10;
+    function spawnEnemy() {
+        const size = 20;
         const x = Math.random() * (canvas.width - size);
         const y = Math.random() * (canvas.height - size);
-        gameData.items.push({ x, y, size });
+        enemies.push({ x, y, size });
+    }
+
+    function moveEnemies() {
+        enemies.forEach(enemy => {
+            const dx = player.x - enemy.x;
+            const dy = player.y - enemy.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const speed = 2;
+
+            enemy.x += (dx / distance) * speed;
+            enemy.y += (dy / distance) * speed;
+        });
     }
 
     function checkCollisions() {
-        gameData.items = gameData.items.filter(item => {
-            const collides = gameData.player.x < item.x + item.size &&
-                             gameData.player.x + gameData.player.size > item.x &&
-                             gameData.player.y < item.y + item.size &&
-                             gameData.player.y + gameData.player.size > item.y;
+        enemies.forEach((enemy, index) => {
+            const collides = player.x < enemy.x + enemy.size &&
+                             player.x + player.size > enemy.x &&
+                             player.y < enemy.y + enemy.size &&
+                             player.y + player.size > enemy.y;
             if (collides) {
+                enemies.splice(index, 1);
                 gameData.score++;
             }
-            return !collides;
         });
     }
 
     function gameLoop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawPlayer();
-        drawItems();
+        drawEnemies();
+        moveEnemies();
         checkCollisions();
         ctx.font = '30px Arial';
         ctx.fillStyle = 'black';
@@ -47,14 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.addEventListener('keydown', (e) => {
-        const speed = 5;
-        if (e.key === 'ArrowUp') gameData.player.y -= speed;
-        if (e.key === 'ArrowDown') gameData.player.y += speed;
-        if (e.key === 'ArrowLeft') gameData.player.x -= speed;
-        if (e.key === 'ArrowRight') gameData.player.x += speed;
+        if (e.key === 'ArrowUp') player.y -= player.speed;
+        if (e.key === 'ArrowDown') player.y += player.speed;
+        if (e.key === 'ArrowLeft') player.x -= player.speed;
+        if (e.key === 'ArrowRight') player.x += player.speed;
     });
 
-    setInterval(spawnItem, 1000);
+    setInterval(spawnEnemy, 2000);
     gameLoop();
 
     document.getElementById('saveGame').addEventListener('click', () => {
